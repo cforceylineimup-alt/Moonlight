@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>What'sMoon</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#0A0A0A;--bg2:#0E1621;--ac:#2AABEE;--tx:#e8eef5;--mu:#8795a5;--gl:rgba(255,255,255,.06);--bd:rgba(255,255,255,.1);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;font-family:Poppins,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg2);color:var(--tx);overflow:hidden}
+body{background:radial-gradient(circle at 15% 0,#15324b,var(--bg2) 45%,var(--bg))}
+svg{width:20px;height:20px;flex:none}small,.mu{color:var(--mu);font-size:12px}.c{text-align:center;padding:20px}
+.glass{background:var(--gl);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--bd);border-radius:16px}
+button,.it{cursor:pointer;border:0;color:inherit;background:var(--gl);border-radius:12px;padding:10px 14px;transition:transform .15s,background .2s;position:relative;overflow:hidden;font-size:14px;display:inline-flex;gap:6px;align-items:center;justify-content:center}
+button:active,.it:active{transform:scale(.95)}button:hover{background:rgba(255,255,255,.12)}.pri{background:var(--ac)!important;color:#04121c;font-weight:600}.sm{padding:6px 10px;font-size:12px}
+input,select{width:100%;background:rgba(255,255,255,.07);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:11px 14px;outline:0;font-size:14px;margin:4px 0}
+input:focus,select:focus{border-color:var(--ac)}select option{background:#0E1621}
+.rp{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rp .6s forwards;pointer-events:none}@keyframes rp{to{transform:scale(3);opacity:0}}
+#splash{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;z-index:100;transition:opacity .5s;color:var(--ac)}#splash svg{width:72px;height:72px;animation:pl 1.2s infinite}#splash b{font-size:26px;color:var(--tx)}.x{opacity:0}@keyframes pl{50%{transform:scale(1.12)}}
+#toasts{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:10px;left:10px;max-width:340px;margin-left:auto;z-index:99;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{padding:10px 14px;font-size:13px;background:rgba(14,22,33,.9);backdrop-filter:blur(14px);border:1px solid var(--ac);border-radius:14px;animation:in .3s}.toast.er{border-color:#ff5d6c}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+#auth{height:100%;display:flex;align-items:center;justify-content:center;padding:16px}#auth .glass{width:100%;max-width:380px;padding:22px}#auth h2{display:flex;gap:8px;align-items:center;color:var(--ac);margin-bottom:12px}
+.tabs{display:flex;gap:8px;margin-bottom:10px}.tabs button{flex:1}.tabs .on{background:var(--ac);color:#04121c}
+#app{display:none;height:100%;flex-direction:column}header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--bd);background:rgba(10,10,10,.5);backdrop-filter:blur(14px)}
+.lg{display:flex;gap:8px;align-items:center;font-weight:600;color:var(--ac)}.lg b{color:var(--tx)}.pr{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:13px}
+.av{width:36px;height:36px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--ac),#6b5bff);display:flex;align-items:center;justify-content:center;font-weight:600;flex:none}.av img,.av video{width:100%;height:100%;object-fit:cover}.av.s{width:40px;height:40px}.av.big{width:84px;height:84px;font-size:30px;border:3px solid var(--bg2)}
+#bd{flex:1;min-height:0;display:flex;flex-direction:column-reverse}#nav{display:flex;justify-content:space-around;padding:6px;background:rgba(10,10,10,.7);backdrop-filter:blur(16px);border-top:1px solid var(--bd)}
+#nav button{flex-direction:column;gap:2px;font-size:10px;background:none;padding:6px 10px}#nav .on{color:var(--ac)}
+main{flex:1;min-width:0;min-height:0;display:flex}.view{display:none;flex:1;min-width:0;overflow:auto;padding:12px}.view.on{display:block}#v-chat{padding:0}#v-chat.on{display:flex}
+#rl{width:100%;overflow:auto;padding:10px}.it{display:flex;width:100%;justify-content:flex-start;margin-bottom:6px;padding:12px;gap:10px;background:var(--gl)}.it.a{background:rgba(42,171,238,.2);border:1px solid var(--ac)}
+#tp{display:none;flex:1;min-width:0;flex-direction:column}#v-chat.open #rl{display:none}#v-chat.open #tp{display:flex}
+#tb{display:flex;gap:8px;align-items:center;padding:10px;border-bottom:1px solid var(--bd)}#th{flex:1;overflow:auto;padding:10px 12px}
+#cp{display:flex;gap:6px;padding:8px;border-top:1px solid var(--bd);align-items:center}#cp input{margin:0}#mic.rec{background:#ff3b4e}
+.m{display:flex;margin:6px 0;animation:in .25s}.m.me{justify-content:flex-end}.b{max-width:80%;padding:8px 12px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid var(--bd);word-break:break-word;font-size:14px;user-select:none;-webkit-user-select:none}.me .b{background:rgba(42,171,238,.22)}
+.b img,.b video{max-width:100%;border-radius:12px;display:block;margin:4px 0}.b audio{max-width:100%}.b a{color:var(--ac)}.t{font-size:10px;color:var(--mu);text-align:right}.n{font-size:12px;font-weight:600;display:flex;gap:4px;align-items:center}
+.lp{background:rgba(0,0,0,.3);border-left:3px solid var(--ac);padding:6px 8px;border-radius:8px;font-size:12px;margin-top:4px;display:flex;gap:6px;align-items:center}.r{display:flex;gap:4px;flex-wrap:wrap}.rc{display:inline-flex;gap:3px;font-size:11px;background:rgba(255,255,255,.1);border-radius:10px;padding:2px 6px;cursor:pointer;color:var(--ac)}.rc svg{width:12px;height:12px}
+#ov{position:fixed;inset:0;display:none;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:50;padding:16px}#ov.on{display:flex}.zm{transform:scale(1.12);width:100%;max-width:420px;animation:in .2s}#ov img,#ov video{max-width:100%;max-height:75vh;border-radius:14px}.rb{display:flex;gap:8px;justify-content:center;margin-top:18px}.rb button{border-radius:50%;width:44px;height:44px;padding:0}
+.sr{display:flex;gap:14px;overflow:auto;padding:6px 2px}.sc{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex:none;width:68px}.ring{width:64px;height:64px;border-radius:50%;padding:3px;background:conic-gradient(var(--ac),#6b5bff,var(--ac));display:flex;align-items:center;justify-content:center}.ring .av{width:100%;height:100%;border:2px solid var(--bg2)}.ring.add{background:var(--gl);border:2px dashed var(--ac);font-size:26px;color:var(--ac)}
+.pc{padding:14px;margin-bottom:12px}.pc h4{margin-bottom:8px}.bn{height:130px;border-radius:12px;background:linear-gradient(120deg,#12324d,#2a1f5c);overflow:hidden;position:relative}.bn img,.bn video{width:100%;height:100%;object-fit:cover}.bn button{position:absolute;right:8px;bottom:8px}.avw{margin:-40px 0 6px 12px;display:flex;align-items:flex-end;gap:8px;position:relative}.stt{display:flex;justify-content:space-around;margin-top:10px;text-align:center}.stt b{display:block;font-size:18px}
+.rw{display:flex;gap:10px;align-items:center;padding:10px;margin-bottom:8px}.g1{flex:1;display:flex;flex-direction:column}.rw>b{width:24px;color:var(--ac)}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1}input[type=color]{padding:2px;height:40px}
+@media(min-width:800px){#bd{flex-direction:row}#nav{flex-direction:column;justify-content:flex-start;gap:6px;width:76px;border-top:0;border-right:1px solid var(--bd)}#v-chat #rl{width:290px;flex:none;border-right:1px solid var(--bd)}#v-chat #tp,#v-chat.open #tp{display:flex}#v-chat.open #rl{display:block}.bk{display:none!important}}
+</style></head><body>
+<div id="splash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg><b>What'sMoon</b></div>
+<div id="toasts"></div><div id="ov"></div>
+<div id="auth" style="display:none"><div class="glass"><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg>What'sMoon</h2>
+<div class="tabs"><button class="on" data-a="tab" data-v="0">User</button><button data-a="tab" data-v="1">Admin</button></div>
+<input id="au" placeholder="Username" maxlength="16" autocomplete="username"><input id="ap" type="password" placeholder="Password" autocomplete="current-password"><input id="ac" placeholder="Kode Admin" style="display:none">
+<button class="pri" style="width:100%;margin-top:8px" data-a="login">Masuk / Daftar</button><p class="mu" style="margin-top:10px">Akun baru dibuat otomatis saat pertama masuk.</p></div></div>
+<div id="app"><header><div class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg><b>What'sMoon</b></div><div class="pr" id="hp" data-a="nav" data-v="me"></div></header>
+<div id="bd"><nav id="nav"></nav><main>
+<section class="view on" id="v-chat"><div id="rl"></div><div id="tp"><div id="tb"><button class="bk sm" data-a="back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><b id="tt"></b></div><div id="th"></div>
+<div id="cp"><button data-a="att" id="bt1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12l-9 9a6 6 0 0 1-9-9l9-9a4 4 0 0 1 6 6l-9 9a2 2 0 0 1-3-3l8-8"/></svg></button><input id="in" maxlength="1000" placeholder="Ketik pesan"><button id="mic" data-a="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg></button><button class="pri" data-a="snd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></div></div></section>
+<section class="view" id="v-story"></section><section class="view" id="v-rank"></section>
+<section class="view" id="v-tools"><div class="glass pc"><h4>TikTok Downloader</h4><input id="tu" placeholder="Tempel link TikTok"><button class="pri" data-a="dl" style="width:100%;margin-top:6px">Unduh</button><div id="dr" style="margin-top:12px"></div></div></section>
+<section class="view" id="v-me"></section></main></div></div>
+<script>
+(()=>{"use strict";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const FIREBASE_CONFIG=null; /* Placeholder: isi {apiKey,projectId,...} bila ingin online. Saat null: localStorage + BroadcastChannel antar tab. */
+const KEY='wm_db',ls=(k,v)=>{try{return v===undefined?localStorage.getItem(k):v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){return null}};
+let db={users:{},msgs:[],stories:[]},me=null,room='public',lp,rec,ch=[],ac;
+try{Object.assign(db,JSON.parse(ls(KEY)||'{}'))}catch(e){}
+db.users=db.users||{};db.msgs=db.msgs||[];db.stories=db.stories||[];
+const bc=window.BroadcastChannel?new BroadcastChannel('wm'):null,post=d=>{try{bc&&bc.postMessage(d)}catch(e){}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast('Penyimpanan penuh: data hanya tersimpan selama sesi ini',1)}};
+const h=s=>{let x=5381;for(const c of String(s))x=(x*33^c.charCodeAt(0))>>>0;return x.toString(36)};
+const hms=()=>new Date().toLocaleTimeString('id-ID',{hour12:false}).replace(/\./g,':');
+const beep=(f=520,d=.08)=>{try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}};
+function toast(t,er){const e=document.createElement('div');e.className='toast'+(er?' er':'');e.textContent=t;$('#toasts').append(e);setTimeout(()=>e.remove(),3200)}
+const sv=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const I={chat:sv('<path d="M21 12a8 8 0 0 1-12 7l-5 1 1-4a8 8 0 1 1 16-4z"/>'),story:sv('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>'),rank:sv('<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'),tool:sv('<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>'),me:sv('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),hash:sv('<path d="M5 9h14M5 15h14M10 3L8 21M16 3l-2 18"/>'),cam:sv('<path d="M3 8h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13" r="3.5"/>'),link:sv('<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>'),
+heart:sv('<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-3 4.5 4.5 0 0 1 8 3c0 6-8 11-8 11z"/>'),like:sv('<path d="M7 11v10H3V11zM7 11l4-8a2 2 0 0 1 3 2l-1 4h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7"/>'),star:sv('<path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7.2L12 17.8l-6.3 3.7 1.6-7.2L2 9.6 9 9z"/>'),bolt:sv('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>'),home:sv('<path d="M3 11l9-8 9 8M5 10v10h14V10"/>'),users:sv('<circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0M16 4a3.5 3.5 0 0 1 0 7M18 14a7 7 0 0 1 4 7"/>')};
+const VB='<svg viewBox="0 0 24 24" style="width:16px;height:16px" aria-label="Terverifikasi"><path fill="#1DA1F2" d="M12 1l3 2 3.6-.3 1.3 3.4 3 2-1 3.5 1 3.5-3 2-1.3 3.4L15 21l-3 2-3-2-3.6.3-1.3-3.4-3-2 1-3.5-1-3.5 3-2 1.3-3.4L9 3z"/><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>';
+const isV=u=>u&&(u.role==='admin'||u.role==='dev'),isP=u=>u&&(u.pm||u.role==='admin'),vb=u=>isV(u)?VB:'';
+const nm=u=>`<span style="color:${isP(u)&&/^#[0-9a-f]{6}$/i.test(u.col||'')?u.col:'inherit'}">${esc(u.u)}</span>${vb(u)}`;
+const md=(s,t)=>s&&/^data:(image|video)\//.test(s)?(t==='v'?`<video src="${esc(s)}" autoplay muted loop playsinline></video>`:`<img src="${esc(s)}" alt="">`):'';
+const av=u=>md(u.av,u.avt)||`<span>${esc((u.u||'?')[0].toUpperCase())}</span>`;
+const RX=['heart','like','star','bolt'],FIX=[['public','Publik'],['group','Grup'],['channel','Channel'],['comm','Community']];
+const dmId=(a,b)=>'dm:'+[a,b].sort().join('|'),clean=t=>t.replace(/\b(anjing|babi|bangsat|kontol|memek|fuck|shit)\b/gi,'***');
+function pick(acc,cb){const i=document.createElement('input');i.type='file';i.accept=acc;i.onchange=()=>{const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>cb(r.result,f.type.startsWith('video')?'v':f.type.startsWith('audio')?'a':'i');r.onerror=()=>toast('Gagal membaca file',1);r.readAsDataURL(f)};i.click()}
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('button,.it,.sc');if(!b)return;const r=b.getBoundingClientRect(),s=document.createElement('span'),z=Math.max(r.width,r.height);s.className='rp';s.style.cssText=`width:${z}px;height:${z}px;left:${e.clientX-r.left-z/2}px;top:${e.clientY-r.top-z/2}px`;b.append(s);setTimeout(()=>s.remove(),600);try{navigator.vibrate&&navigator.vibrate(10)}catch(_){}beep(700,.04)});
+window.addEventListener('error',()=>toast('Terjadi kesalahan, coba lagi',1));window.addEventListener('unhandledrejection',()=>toast('Terjadi kesalahan, coba lagi',1));
+/* ===== chat ===== */
+const safe=d=>/^data:(image|video|audio)\//.test(d||'')?esc(d):'';
+function body(m){let o='';const x=clean(m.x||'');if(x){o+=`<div>${esc(x).replace(/https?:\/\/[^\s<]+/g,u=>`<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`)}</div>`;const u=(x.match(/https?:\/\/[^\s<]+/)||[])[0];if(u){let ho='';try{ho=new URL(u).hostname}catch(e){}if(ho)o+=`<div class="lp">${I.link}<span>${esc(ho)}</span></div>`}}
+const d=safe(m.d);if(d){o+=m.k==='i'?`<img src="${d}" alt="">`:m.k==='v'?`<video src="${d}" controls playsinline></video>`:m.k==='a'?`<audio src="${d}" controls></audio>`:''}return o}
+const rxh=m=>Object.keys(m.rx||{}).filter(k=>RX.includes(k)&&m.rx[k].length).map(k=>`<span class="rc" data-a="rx" data-id="${esc(m.id)}" data-k="${k}">${I[k]}${m.rx[k].length}</span>`).join('');
+function row(m){const u=db.users[m.u]||{u:m.u};return `<div class="m ${m.u===me.u?'me':''}" data-id="${esc(m.id)}"><div class="b"><div class="n">${nm(u)}</div>${body(m)}<div class="r">${rxh(m)}</div><div class="t">${esc(m.t)}</div></div></div>`}
+const okRoom=r=>FIX.some(f=>f[0]===r)||(typeof r==='string'&&r.startsWith('dm:')&&r.slice(3).split('|').includes(me.u));
+const okMsg=m=>m&&typeof m.id==='string'&&typeof m.u==='string'&&typeof m.room==='string'&&typeof m.t==='string'&&(m.x==null||typeof m.x==='string');
+function rooms(){const o=Object.keys(db.users).filter(n=>n!==me.u).map(n=>[dmId(me.u,n),'Private: '+n]);$('#rl').innerHTML=FIX.concat(o).map(r=>`<button class="it ${room===r[0]?'a':''}" data-a="room" data-r="${esc(r[0])}">${r[0].startsWith('dm:')?I.me:I.hash}<span>${esc(r[1])}</span></button>`).join('')}
+function draw(){const l=db.msgs.filter(m=>m.room===room);$('#th').innerHTML=l.map(row).join('')||'<p class="mu c">Belum ada pesan. Mulai percakapan.</p>';$('#th').scrollTop=1e9;const f=FIX.find(x=>x[0]===room),t=f?f[1]:'Private: '+room.slice(3).split('|').find(n=>n!==me.u);$('#tt').textContent=t||'Private';const lock=room==='channel'&&me.role!=='admin';$('#in').disabled=lock;$('#bt1').disabled=lock;$('#in').placeholder=lock?'Hanya Admin yang bisa mengirim':'Ketik pesan'}
+function send(ex){if(!okRoom(room))return toast('Ruang tidak valid',1);if(room==='channel'&&me.role!=='admin')return toast('Hanya Admin yang bisa mengirim di Channel',1);const x=$('#in').value.trim();if(!x&&!ex)return;const m=Object.assign({id:Date.now().toString(36)+Math.random().toString(36).slice(2,8),u:me.u,room,x,t:hms(),rx:{}},ex||{});db.msgs.push(m);if(db.msgs.length>300)db.msgs.shift();save();post({t:'m',m});$('#in').value='';draw()}
+function inc(m){if(!okMsg(m)||db.msgs.some(o=>o.id===m.id)||!okRoom(m.room))return;db.msgs.push(m);save();beep(880,.1);toast(m.u+': '+(m.x?clean(m.x).slice(0,40):'media'));if(m.room===room)draw()}
+async function vn(){if(rec&&rec.state==='recording'){rec.stop();return}try{const s=await navigator.mediaDevices.getUserMedia({audio:true});rec=new MediaRecorder(s);ch=[];rec.ondataavailable=e=>ch.push(e.data);rec.onstop=()=>{s.getTracks().forEach(t=>t.stop());$('#mic').classList.remove('rec');const r=new FileReader();r.onload=()=>send({k:'a',d:r.result});r.readAsDataURL(new Blob(ch,{type:rec.mimeType}))};rec.start();$('#mic').classList.add('rec')}catch(e){toast('Mikrofon tidak tersedia atau ditolak',1)}}
+function zoom(id){const m=db.msgs.find(o=>o.id===id);if(!m)return;$('#ov').innerHTML=`<div class="zm">${row(m)}<div class="rb">${RX.map(k=>`<button data-a="rx" data-id="${esc(id)}" data-k="${k}">${I[k]}</button>`).join('')}</div></div>`;$('#ov').classList.add('on')}
+const closeOv=()=>{$('#ov').classList.remove('on');$('#ov').innerHTML=''};
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('#th .b');if(b)lp=setTimeout(()=>zoom(b.parentNode.dataset.id),500)});['pointerup','pointermove','pointercancel'].forEach(t=>document.addEventListener(t,()=>clearTimeout(lp)));
+/* ===== views ===== */
+const NAV=[['chat','Chat'],['story','Story'],['rank','Rank'],['tool','Unduh','tools'],['me','Profil']];
+function show(v){$$('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));$$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({chat:()=>{rooms();draw()},story:st,rank:rk,me:pf}[v]||(()=>{}))()}
+function hdr(){$('#hp').innerHTML=`<div class="av">${av(me)}</div><div>${nm(me)}<br><small>Lv ${me.lv||1}</small></div>`}
+function st(){const now=Date.now();db.stories=db.stories.filter(s=>now-s.ts<864e5);const g={};db.stories.forEach(s=>g[s.u]=s);$('#v-story').innerHTML=`<h3 style="margin-bottom:8px">Story 24 jam</h3><div class="sr"><div class="sc" data-a="addst"><div class="ring add">+</div><small>Status saya</small></div>${Object.keys(g).map(n=>`<div class="sc" data-a="vst" data-u="${esc(n)}"><div class="ring"><div class="av">${av(db.users[n]||{u:n})}</div></div><small>${esc(n)}</small></div>`).join('')}</div>`}
+function rk(){const l=Object.values(db.users).sort((a,b)=>(b.lv||0)-(a.lv||0)).slice(0,10);$('#v-rank').innerHTML='<h3 style="margin-bottom:10px">Leaderboard Top 10</h3>'+l.map((u,i)=>`<div class="glass rw"><b>${i+1}</b><div class="av s">${av(u)}</div><div class="g1"><span style="display:flex;gap:4px;align-items:center">${nm(u)}</span><small>Level ${u.lv||1}</small></div>${u.u!==me.u?`<button class="sm" data-a="fol" data-u="${esc(u.u)}">${(me.fg||[]).includes(u.u)?'Mengikuti':'Ikuti'}</button>`:''}</div>`).join('')}
+const RT=['Pasangan','Saudara','Temen','Teman Dekat','Keluarga'],RI=['heart','users','like','star','home'];
+function pf(){const u=me,fl=Object.values(db.users).filter(x=>(x.fg||[]).includes(u.u)).length,fg=(u.fg||[]).length,fr=(u.fg||[]).filter(n=>db.users[n]&&(db.users[n].fg||[]).includes(u.u)).length,rl=u.rel&&RT.includes(u.rel.t)?`<span style="display:flex;gap:6px;align-items:center">${I[RI[RT.indexOf(u.rel.t)]]}${esc(u.rel.t)}: ${esc(u.rel.n)}</span>`:'<span class="mu">Hubungan: kosong</span>';
+$('#v-me').innerHTML=`<div class="glass pc"><div class="bn">${md(u.bn,u.bnt)}<button class="sm" data-a="bn">${I.cam}Banner</button></div><div class="avw"><div class="av big">${av(u)}</div><button class="sm" data-a="av">Ganti foto/video</button></div>
+<h3 style="display:flex;gap:6px;align-items:center">${nm(u)}</h3><small>${u.role==='admin'?'ADMIN':u.role==='dev'?'DEVELOPER':'Pengguna'} · Level ${u.lv||1}${isP(u)?' · Premium':''}</small><p style="margin-top:6px">${esc(u.st||'')}</p>${rl}
+<div class="stt"><div><b>${fr}</b><small>Teman</small></div><div><b>${fl}</b><small>Pengikut</small></div><div><b>${fg}</b><small>Mengikuti</small></div></div></div>
+<div class="glass pc"><h4>Edit profil</h4><input id="eu" value="${esc(u.u)}" maxlength="16" placeholder="Username"><input id="ep" type="password" placeholder="Password baru (kosongkan jika tidak diganti)"><input id="es" value="${esc(u.st||'')}" maxlength="80" placeholder="Status">${isP(u)?`<small>Warna nama (Premium)</small><input id="ec" type="color" value="${/^#[0-9a-f]{6}$/i.test(u.col||'')?u.col:'#2AABEE'}">`:''}<button class="pri" data-a="saveP" style="width:100%;margin-top:6px">Simpan</button></div>
+<div class="glass pc"><h4>Afinitas</h4><div class="row"><select id="rt">${RT.map(t=>`<option>${t}</option>`).join('')}</select><input id="rn" placeholder="Username pasangan"></div><div class="row"><button class="pri" data-a="rel">Simpan</button><button data-a="unrel">Hapus Hubungan</button></div></div>
+<div class="glass pc"><h4>Premium</h4><small>Banner foto gratis, banner video khusus Premium. Rp 50.000/bulan.</small><input id="vc" placeholder="Kode voucher"><div class="row"><button class="pri" data-a="vcr">Tukar</button><button data-a="buy">Beli, chat Admin</button></div></div>
+<div class="glass pc"><h4>Latar Musik</h4><div class="row"><button data-a="mus">Upload audio/video</button><button data-a="mpp">Play/Pause</button></div><div class="row"><input type="range" id="mv" min="0" max="1" step=".05" value="${bg.volume}" data-a="mvol"><label class="mu"><input type="checkbox" id="ml" data-a="mloop" style="width:auto" ${bg.loop?'checked':''}> Loop</label></div></div>
+${u.role==='admin'?`<div class="glass pc"><h4>Panel Admin</h4><input id="a1" placeholder="Username target"><input id="a2" placeholder="Kode premium"><div class="row"><button class="pri" data-a="apm">Premium-kan</button><button data-a="adev">Jadikan Dev</button><button data-a="adel">Hapus akun</button></div></div>`:''}
+<div class="glass pc"><h4>Hapus akun</h4><input id="d1" placeholder='Ketik "Delete Account"'><input id="d2" placeholder="Alasan" maxlength="200"><button data-a="del" style="width:100%">Hapus akun saya</button></div><button data-a="out" style="width:100%;margin-bottom:12px">Keluar</button>`}
+/* ===== state ===== */
+const bg=new Audio();bg.volume=.6;bg.loop=true;
+const pushU=()=>{db.users[me.u]=me;save();post({t:'u',x:me})},sync=()=>{db.users[me.u]&&(db.users[me.u]=me);save();post({t:'s',db})},upd=full=>{full?sync():pushU();hdr();pf()};
+const lvUp=n=>{me.lv=me.role==='admin'?9999:(me.lv||1)+n};
+const fix=()=>{if(me&&me.role==='admin')me.lv=9999};
+if(bc)bc.onmessage=e=>{const d=e.data||{};try{
+if(d.t==='m'&&me)inc(d.m);
+else if(d.t==='r'){const m=db.msgs.find(o=>o.id===d.id);if(m&&d.rx&&typeof d.rx==='object'){m.rx=d.rx;if(me&&m.room===room)draw()}}
+else if(d.t==='u'&&d.x&&typeof d.x.u==='string'){db.users[d.x.u]=d.x;if(me&&d.x.u===me.u)me=d.x}
+else if(d.t==='s'&&d.db&&d.db.users){db=d.db;db.msgs=db.msgs||[];db.stories=db.stories||[];if(me){me=db.users[me.u];if(!me){toast('Akun tidak ditemukan',1);out();return}hdr()}}}catch(_){}};
+const A={
+tab(a){$$('.tabs button').forEach(b=>b.classList.toggle('on',b===a));$('#ac').style.display=a.dataset.v==='1'?'block':'none'},
+login(){const u=$('#au').value.trim(),p=$('#ap').value,c=$('#ac').value.trim(),adm=$('#ac').style.display!=='none';
+if(!/^[A-Za-z0-9_]{3,16}$/.test(u))return toast('Username 3-16 karakter: huruf, angka, _',1);if(p.length<4)return toast('Password minimal 4 karakter',1);if(adm&&c!=='RYUKA5522')return toast('Kode admin salah',1);
+let x=db.users[u];if(x){if(x.p!==h(p))return toast('Password salah',1);if(x.role==='admin'&&!adm)return toast('Akun admin: masuk lewat tab Admin',1);if(adm)x.role='admin'}
+else x=db.users[u]={u,p:h(p),role:adm?'admin':'user',lv:1,min:0,st:'Halo, saya pakai What\'sMoon',fg:[],pm:0};
+me=x;fix();ls('wm_ses',u);sync();enter()},
+nav(a){show(a.dataset.v)},back(){$('#v-chat').classList.remove('open')},
+room(a){const r=a.dataset.r;if(!okRoom(r))return toast('Ruang tidak valid',1);room=r;$('#v-chat').classList.add('open');rooms();draw()},
+snd(){send()},att(){pick('image/*,video/*',(d,k)=>send({k,d}))},mic(){vn()},
+rx(a){const m=db.msgs.find(o=>o.id===a.dataset.id),k=a.dataset.k;if(!m||!RX.includes(k))return;m.rx=m.rx||{};const l=m.rx[k]=m.rx[k]||[],i=l.indexOf(me.u);i<0?l.push(me.u):l.splice(i,1);save();post({t:'r',id:m.id,rx:m.rx});closeOv();draw()},
+addst(){pick('image/*,video/*',(d,k)=>{db.stories.push({id:Date.now().toString(36),u:me.u,d,k,ts:Date.now()});lvUp(1);upd(true);st();toast('Status diunggah, +1 Level')})},
+vst(a){const s=db.stories.filter(x=>x.u===a.dataset.u).pop();if(!s)return;$('#ov').innerHTML=`<b>${esc(s.u)}</b>${md(s.d,s.k==='v'?'v':'i').replace('autoplay muted loop','autoplay controls loop')}<small>${new Date(s.ts).toLocaleTimeString('id-ID',{hour12:false})}</small>`;$('#ov').classList.add('on')},
+fol(a){const n=a.dataset.u;if(!db.users[n])return;me.fg=me.fg||[];const i=me.fg.indexOf(n);i<0?me.fg.push(n):me.fg.splice(i,1);upd();rk()},
+bn(){pick('image/*,video/*',(d,k)=>{if(k==='v'&&!isP(me))return toast('Banner video khusus Premium',1);me.bn=d;me.bnt=k;upd(true)})},
+av(){pick('image/*,video/*',(d,k)=>{me.av=d;me.avt=k;upd(true)})},
+saveP(){const n=$('#eu').value.trim(),p=$('#ep').value,s=$('#es').value.trim().slice(0,80),c=$('#ec')&&$('#ec').value;let full=false;
+if(n!==me.u){if(!/^[A-Za-z0-9_]{3,16}$/.test(n))return toast('Username tidak valid',1);if(db.users[n])return toast('Username sudah dipakai',1);const o=me.u;delete db.users[o];me.u=n;db.users[n]=me;db.msgs.forEach(m=>{if(m.u===o)m.u=n});db.stories.forEach(m=>{if(m.u===o)m.u=n});Object.values(db.users).forEach(x=>{x.fg=(x.fg||[]).map(y=>y===o?n:y)});ls('wm_ses',n);full=true}
+if(p){if(p.length<4)return toast('Password minimal 4 karakter',1);me.p=h(p)}if(s)me.st=s;if(c&&/^#[0-9a-f]{6}$/i.test(c))me.col=c;upd(full);toast('Profil tersimpan')},
+rel(){const n=$('#rn').value.trim(),t=$('#rt').value;if(!db.users[n]||n===me.u)return toast('Pengguna tidak ditemukan',1);if(!RT.includes(t))return;me.rel={n,t};upd()},unrel(){me.rel=null;upd();toast('Hubungan dihapus')},
+vcr(){if($('#vc').value.trim()==='glass5522'){me.pm=1;upd();toast('Premium aktif')}else toast('Voucher salah',1)},
+buy(){const ad=Object.values(db.users).find(u=>isV(u)&&u.u!==me.u);if(!ad)return toast('Admin belum tersedia',1);room=dmId(me.u,ad.u);show('chat');$('#v-chat').classList.add('open');rooms();draw()},
+mus(){pick('audio/*,video/*',d=>{bg.src=d;bg.play().catch(()=>toast('Tekan Play untuk memulai',1))})},
+mpp(){if(!bg.src)return toast('Pilih file musik dulu',1);bg.paused?bg.play().catch(()=>toast('Gagal memutar',1)):bg.pause()},
+apm(){const x=db.users[$('#a1').value.trim()];if(!x)return toast('User tidak ada',1);if($('#a2').value.trim()!=='Buy-Premium.account')return toast('Kode premium salah',1);x.pm=1;sync();toast('Premium diaktifkan')},
+adev(){const x=db.users[$('#a1').value.trim()];if(!x||x.role==='admin')return toast('User tidak valid',1);x.role='dev';sync();toast('Jadi Developer')},
+adel(){const n=$('#a1').value.trim(),x=db.users[n];if(!x||x.role==='admin')return toast('User tidak valid',1);delete db.users[n];db.stories=db.stories.filter(s=>s.u!==n);sync();toast('Akun dihapus')},
+del(){if($('#d1').value!=='Delete Account')return toast('Ketik persis: Delete Account',1);if($('#d2').value.trim().length<3)return toast('Isi alasan penghapusan',1);const n=me.u;delete db.users[n];db.stories=db.stories.filter(s=>s.u!==n);me=null;ls('wm_ses',null);save();post({t:'s',db});location.reload()},
+out(){out()},
+async dl(){const u=$('#tu').value.trim();if(!/^https?:\/\/\S+$/.test(u))return toast('Link tidak valid',1);try{const r=await fetch('https://www.tikwm.com/api?url='+encodeURIComponent(u)),j=await r.json(),d=j&&j.data,v=d&&(d.hdplay||d.play);if(!/^https:\/\//.test(v||''))throw 0;$('#dr').innerHTML=`<p>${esc(d.title||'Video')}</p><video src="${esc(v)}" controls playsinline style="width:100%;border-radius:12px"></video><a href="${esc(v)}" download target="_blank" rel="noopener noreferrer"><button class="pri" style="width:100%;margin-top:8px">Simpan video</button></a>`}catch(e){toast('Gagal mengambil video. Cek link atau koneksi',1)}}};
+function out(){ls('wm_ses',null);location.reload()}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-a]');if(a&&A[a.dataset.a]&&a.tagName!=='INPUT')A[a.dataset.a](a);if(e.target.id==='ov')closeOv()});
+document.addEventListener('input',e=>{if(e.target.id==='mv')bg.volume=+e.target.value||0});document.addEventListener('change',e=>{if(e.target.id==='ml')bg.loop=e.target.checked});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='in')send();if(e.key==='Escape')closeOv()});
+function enter(){$('#auth').style.display='none';$('#app').style.display='flex';$('#nav').innerHTML=NAV.map(n=>`<button data-a="nav" data-v="${n[2]||n[0]}">${I[n[0]==='tool'?'tool':n[0]]}${n[1]}</button>`).join('');hdr();show('chat')}
+setInterval(()=>{if(!me)return;me.min=(me.min||0)+1;if(me.min%60===0)lvUp(2);if(me.min%180===0)lvUp(1);fix();pushU();hdr()},60000);
+setTimeout(()=>{$('#splash').classList.add('x');setTimeout(()=>$('#splash').remove(),500);const s=ls('wm_ses');if(s&&db.users[s]){me=db.users[s];fix();enter()}else $('#auth').style.display='flex'},1500);
+})();
+</script></body></html>
